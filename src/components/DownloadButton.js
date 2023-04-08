@@ -1,91 +1,56 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react'
+import useDownloader from 'react-use-downloader'
+import axios from 'axios'
+import Button from 'react-bootstrap/Button';
 function DownloadButton(props) {
     // const [formats, setFormats] = useState([]);
     const [downloadLink, setDownloadLink] = useState('');
     const [downloadProgress, setDownloadProgress] = useState(0);
     const [isDownloading, setIsDownloading] = useState(false);
+    const { size, elapsed, percentage, download, cancel, error, isInProgress } =
+        useDownloader();
 
-    // useEffect(() => {
-    //     // Fetch available formats
-    //     fetch(`https://api.youtubemultidownloader.com/video_formats?url=${videoLink}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setFormats(data.formats);
-    //             setSelectedFormat(data.formats[0].itag);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }, [videoLink]);
-
-    // const handleFormatChange = (event) => {
-    //     setSelectedFormat(event.target.value);
-    // };
-
+   
+    function DownloadButton() {
+        const link = props.videoLink
+        
+ 
+            const a = document.createElement('a');
+            a.href = link;
+            a.target = '_blank';
+            a.click();
+        return (
+            <div>
+                
+                <div>{error && <p>{JSON.stringify(error)}</p>}</div>
+            </div>
+        );
+    }
     const handleDownloadClick = () => {
         // Generate download link
         const link = props.videoLink
         console.log(link)
         setDownloadLink(link);
         setIsDownloading(true);
-
-        // Start download
-        fetch(link)
-            .then(response => {
-                console.log(response)
-                // Set download progress
-                const total = parseInt(response.headers.get('content-length'));
-                let downloaded = 0;
-                const reader = response.body.getReader();
-                return new ReadableStream({
-                    start(controller) {
-                        function pump() {
-                            reader.read().then(({ done, value }) => {
-                                if (done) {
-                                    controller.close();
-                                    return;
-                                }
-                                downloaded += value.byteLength;
-                                setDownloadProgress(downloaded / total * 100);
-                                controller.enqueue(value);
-                                pump();
-                            });
-                        }
-                        pump();
-                    }
-                });
-            })
-            .then(stream => new Response(stream))
-            .then(response => response.blob())
-            .then(blob => {
-                setIsDownloading(false);
-                setDownloadProgress(0);
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'video.mp4';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            })
-            .catch(error => {
-                console.log(error);
-            });
+       
     };
 
     return (
-        <div>
-            <h2>Download Video</h2>
+        <div className='border-gray-400 border bg-gray-100'>
+            <h2 className='text-xl'>Download Video</h2>
             <div>
-                {props.quality}
-                <button onClick={handleDownloadClick} disabled={isDownloading}>Download</button>
-            </div>
-            {isDownloading &&
-                <div>
-                    <p>Download progress: {downloadProgress.toFixed(2)}%</p>
+                <div className='m-1 text-md'>
+                    {props.quality}
+
                 </div>
-            }
+                
+                {/* <button onClick={handleDownloadClick} disabled={isDownloading}>Download</button> */}
+               
+                <div className='rounded-lg bg-red-500 p-2 text-lg cursor-pointer' onClick={DownloadButton}>
+                    Download
+                </div>
+            </div>
+            
         </div>
     );
 }

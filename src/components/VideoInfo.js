@@ -9,7 +9,7 @@ function VideoInfo(props) {
                 <div>
                     <p>Title: {props.videoInfo.fulltitle}</p>
                     <p>Author Name: {props.videoInfo.channel}</p>
-                    <p>Thumbnail URL: <img src={props.videoInfo.thumbnail} alt="Thumbnail for video " /></p>
+                    <p>Thumbnail URL: <img  className="w-[300px] h-[200px]"src={props.videoInfo.thumbnail} alt="Thumbnail for video " /></p>
                 </div>
         </div>
     );
