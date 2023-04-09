@@ -1,16 +1,20 @@
 
 /*global chrome*/
 import React, { useState, useEffect } from 'react';
-import VideoInfo from './components/VideoInfo'
-import DownloadButton from './components/DownloadButton';
-import Axios from 'axios';
+import axios from 'axios';
+import youtube from './assets/youtube.png'
 import APIKEY from './.env'
+import YTNeed from './components/YTNeed';
+import VideoDownload from './components/VideoDownload';
+import { Levels } from 'react-activity';
+import "react-activity/dist/library.css";
 function App() {
   const [videoLink, setVideoLink] = useState('');
-  const [url, setUrl] = useState(window.location.href);
+
   const [showDownloads, setShowDownloads] = useState(false);
   const [data,setData]=useState(null)
   const [downWant,setDownWant]=useState(false)
+  const [activity, setActivity] = useState(false)
 
 
   const [currentUrl, setCurrentUrl] = useState("");
@@ -38,6 +42,7 @@ function App() {
   }, [currentUrl]);
 
   async function submitHandler() {
+    setActivity(true)
     setDownWant(true)
     const options = {
       method: 'GET',
@@ -48,51 +53,31 @@ function App() {
         'X-RapidAPI-Host': 'aiov-download-youtube-videos.p.rapidapi.com'
       }
     };
-    Axios.request(options).then(function (response) {
-      console.log(response.data);
-      // console.log(response.data.formats.filter(item => item.video_ext !== "none" && item.acodec!=="none"))
+
+    axios.request(options).then(
+      
+      function (response) {
+        setActivity(false)
       setData(response.data)
     }).catch(function (error) {
-      console.error(error);
+console.log(error)
     });
     // setData(data);
   }
 console.log(data)
   return (
-    <div>{showDownloads?
+    <div className='w-[400px] h-[400px]'>{showDownloads?
     (downWant&&data!=null?<div>
-      <h1>YouTube Downloader</h1>
-      <VideoInfo videoInfo={data} />
-      {videoLink && 
-
-          data.formats.filter(item => item.video_ext !== "none" && item.acodec !== "none").map((value, index) => (
-            <DownloadButton videoLink={value.url} format={value.video_ext} quality={value.format_note}/>
-
-            // <Col key={index} xs={24} md={3}>
-            //   <Button
-            //     download
-            //     href={value.url}
-            //     target="_self"
-            //     type="primary"
-            //   >
-            //     {value.vcodec}
-            //     {value.video_ext}
-            //   </Button>
-            // </Col>
-
-            // <div>
-            //   HELLO
-            //   {value.vcodec}
-            //  {value.video_ext}
-            // </div>
-          ))
-        // <DownloadButton videoLink={videoLink} format={format}/>
-      }
-    </div>:<div><button type='button' onClick={submitHandler}>Would Like to Download this Video </button></div>):
+      <VideoDownload data={data} videoLink={videoLink} />
+    </div>:
+    <div className='w-[400px] h-[400px] text-xl text-center bg-black '>
+          {!activity ? (<button type='button' className='bg-[#ff1010] text-white  text-3xl mx-auto py-[125px] hover:bg-[#000000] hover:text-[#ff1010] items-center justify-center' onClick={submitHandler}>
+            <img className='w-[80px] h-[80px] ml-[160px] ' src={youtube} alt="youtube logo"/>
+            Would you like to download this Youtube video </button>) : 
+            <div className=' w-[400px] h-[400px] text-[#ff1010]'><Levels color="#ff1010" size={122} speed={1} animating={true} className='py-[100px]' />Just a sec.</div>}
+        </div>):
     
-    (<div>
-      You need to go a youtube video first to see the download options available for a video to download 
-    </div>)}
+    (<YTNeed/>)}
     </div>
   );
 }

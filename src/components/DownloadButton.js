@@ -1,91 +1,35 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react'
 function DownloadButton(props) {
-    // const [formats, setFormats] = useState([]);
-    const [downloadLink, setDownloadLink] = useState('');
-    const [downloadProgress, setDownloadProgress] = useState(0);
-    const [isDownloading, setIsDownloading] = useState(false);
 
-    // useEffect(() => {
-    //     // Fetch available formats
-    //     fetch(`https://api.youtubemultidownloader.com/video_formats?url=${videoLink}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setFormats(data.formats);
-    //             setSelectedFormat(data.formats[0].itag);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }, [videoLink]);
 
-    // const handleFormatChange = (event) => {
-    //     setSelectedFormat(event.target.value);
-    // };
-
-    const handleDownloadClick = () => {
-        // Generate download link
+   
+    function DownloadButton() {
         const link = props.videoLink
-        console.log(link)
-        setDownloadLink(link);
-        setIsDownloading(true);
+        
+ 
+            const a = document.createElement('a');
+            a.href = link;
+            a.target = '_blank';
+            a.click();
+    }
 
-        // Start download
-        fetch(link)
-            .then(response => {
-                console.log(response)
-                // Set download progress
-                const total = parseInt(response.headers.get('content-length'));
-                let downloaded = 0;
-                const reader = response.body.getReader();
-                return new ReadableStream({
-                    start(controller) {
-                        function pump() {
-                            reader.read().then(({ done, value }) => {
-                                if (done) {
-                                    controller.close();
-                                    return;
-                                }
-                                downloaded += value.byteLength;
-                                setDownloadProgress(downloaded / total * 100);
-                                controller.enqueue(value);
-                                pump();
-                            });
-                        }
-                        pump();
-                    }
-                });
-            })
-            .then(stream => new Response(stream))
-            .then(response => response.blob())
-            .then(blob => {
-                setIsDownloading(false);
-                setDownloadProgress(0);
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'video.mp4';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
 
     return (
-        <div>
-            <h2>Download Video</h2>
+        <div className='bg-black px-3'>
+            <h2 className='text-lg text-[#ff1010]'>Download Video</h2>
             <div>
-                {props.quality}
-                <button onClick={handleDownloadClick} disabled={isDownloading}>Download</button>
-            </div>
-            {isDownloading &&
-                <div>
-                    <p>Download progress: {downloadProgress.toFixed(2)}%</p>
+                <div className='m-1 text-md text-[#ff1010]'>Quality:
+                    {props.quality}
+
                 </div>
-            }
+                
+                {/* <button onClick={handleDownloadClick} disabled={isDownloading}>Download</button> */}
+               
+                <div className='rounded-lg bg-[#ff1010] p-2 text-lg cursor-pointer text-black hover:text-[#ff1010] hover:bg-black text-center mx-[30%] border-2 border-black hover:border-[#ff1010]' onClick={DownloadButton}>
+                    Download
+                </div>
+            </div>
+            
         </div>
     );
 }

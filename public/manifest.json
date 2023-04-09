@@ -1,7 +1,7 @@
 {
-  "name": "Youtube Downloader",
+  "name": "Youtube Video Downloader",
   "version": "1.0.0",
-  "description": "Automatically detects and displays URLs for all videos on web pages",
+  "description": "Automatically detects and allows to download youtube videos",
   "manifest_version": 3,
   "permissions": ["activeTab", "storage"],
   "action": {
