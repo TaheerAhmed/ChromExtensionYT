@@ -1,7 +1,7 @@
 # Youtube Video Downloader Chrome Extension
 
 ## Video Demo
-
+Check out this video demo to see the chrome extension in action (this video has audio, so turn it on):
 
 https://user-images.githubusercontent.com/85991537/230755455-bb62b057-bc15-4f46-8570-531e09b49480.mp4
 
