@@ -1,5 +1,12 @@
 # Youtube Video Downloader Chrome Extension
 
+## Video Demo
+
+
+https://user-images.githubusercontent.com/85991537/230755455-bb62b057-bc15-4f46-8570-531e09b49480.mp4
+
+
+
 ## Overview
 
 The Youtube Video Downloader Chrome Extension is a lightweight, fast and easy-to-use application that enables users to download their favorite YouTube videos directly from their browser in less than 10 seconds. With a simple click, users can download videos in multiple formats and enjoy them offline.
