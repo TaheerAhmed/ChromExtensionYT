@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import useDownloader from 'react-use-downloader'
-import axios from 'axios'
-import Button from 'react-bootstrap/Button';
 function DownloadButton(props) {
-    // const [formats, setFormats] = useState([]);
-    const [downloadLink, setDownloadLink] = useState('');
-    const [downloadProgress, setDownloadProgress] = useState(0);
-    const [isDownloading, setIsDownloading] = useState(false);
-    const { size, elapsed, percentage, download, cancel, error, isInProgress } =
-        useDownloader();
+
 
    
     function DownloadButton() {
@@ -19,34 +11,21 @@ function DownloadButton(props) {
             a.href = link;
             a.target = '_blank';
             a.click();
-        return (
-            <div>
-                
-                <div>{error && <p>{JSON.stringify(error)}</p>}</div>
-            </div>
-        );
     }
-    const handleDownloadClick = () => {
-        // Generate download link
-        const link = props.videoLink
-        console.log(link)
-        setDownloadLink(link);
-        setIsDownloading(true);
-       
-    };
+
 
     return (
-        <div className='border-gray-400 border bg-gray-100'>
-            <h2 className='text-xl'>Download Video</h2>
+        <div className='bg-black px-3'>
+            <h2 className='text-lg text-[#ff1010]'>Download Video</h2>
             <div>
-                <div className='m-1 text-md'>
+                <div className='m-1 text-md text-[#ff1010]'>Quality:
                     {props.quality}
 
                 </div>
                 
                 {/* <button onClick={handleDownloadClick} disabled={isDownloading}>Download</button> */}
                
-                <div className='rounded-lg bg-red-500 p-2 text-lg cursor-pointer' onClick={DownloadButton}>
+                <div className='rounded-lg bg-[#ff1010] p-2 text-lg cursor-pointer text-black hover:text-[#ff1010] hover:bg-black text-center mx-[30%] border-2 border-black hover:border-[#ff1010]' onClick={DownloadButton}>
                     Download
                 </div>
             </div>
